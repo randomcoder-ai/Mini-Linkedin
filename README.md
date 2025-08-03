@@ -48,18 +48,9 @@ git clone <repository-url>
 cd linkedin-community-platform
 ```
 
-### 2. Install Dependencies
+### 2. Install Dependencies & Build
 ```bash
-# Install root dependencies
-npm install
-
-# Install backend dependencies
-cd backend
-npm install
-
-# Install frontend dependencies
-cd ../frontend
-npm install
+npm install && cd backend && npm install && cd ../frontend && npm install && npm run build
 ```
 
 ### 3. Database Setup
@@ -83,26 +74,26 @@ JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
 PORT=5000
 ```
 
+Update the `frontend/.env` file:
+```env
+REACT_APP_BASE_URL=/api
+```
+
 ### 5. Start the Application
+
+#### Production/Deployment Start
+```bash
+npm install && cd backend && npm install && node server.js
+```
+
+This will start the backend server (serving the React build in production).
 
 #### Development Mode (Recommended)
 ```bash
 # From the root directory
 npm run dev
 ```
-
 This will start both the backend (port 5000) and frontend (port 3000) simultaneously.
-
-#### Manual Start
-```bash
-# Start backend
-cd backend
-npm run dev
-
-# Start frontend (in a new terminal)
-cd frontend
-npm start
-```
 
 ## API Endpoints
 
@@ -127,7 +118,7 @@ npm start
 ## Project Structure
 
 ```
-linkedin-community-platform/
+Mini-Linkedin/
 ├── backend/
 │   ├── models/
 │   │   ├── User.js
@@ -142,23 +133,16 @@ linkedin-community-platform/
 │   ├── package.json
 │   └── server.js
 ├── frontend/
+│   ├── .env
 │   ├── public/
 │   │   └── index.html
 │   ├── src/
+│   │   ├── api.js
 │   │   ├── components/
 │   │   │   ├── auth/
-│   │   │   │   ├── Login.js
-│   │   │   │   └── Register.js
 │   │   │   ├── layout/
-│   │   │   │   ├── Navbar.js
-│   │   │   │   └── Loading.js
 │   │   │   ├── pages/
-│   │   │   │   ├── Home.js
-│   │   │   │   ├── Profile.js
-│   │   │   │   └── UserProfile.js
 │   │   │   └── posts/
-│   │   │       ├── PostForm.js
-│   │   │       └── PostItem.js
 │   │   ├── context/
 │   │   │   └── AuthContext.js
 │   │   ├── App.js
@@ -168,6 +152,32 @@ linkedin-community-platform/
 ├── package.json
 └── README.md
 ```
+## Centralized API Calls
+
+All frontend API requests use a centralized Axios instance in `frontend/src/api.js`:
+```js
+import axios from 'axios';
+
+const api = axios.create({
+  baseURL: process.env.REACT_APP_BASE_URL
+});
+
+export default api;
+```
+Update your imports in components and context to use this instance.
+## Deployment on Render
+
+**Build command:**
+```
+npm install && cd ./frontend && npm install && npm run build
+```
+
+**Start command:**
+```
+npm install && cd backend && npm install && node server.js
+```
+
+This ensures all dependencies are installed and the backend serves the built frontend in production.
 
 ## Features in Detail
 
