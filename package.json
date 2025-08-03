@@ -9,7 +9,7 @@
     "server": "cd backend && npm run dev",
     "client": "cd frontend && npm start",
     "install-all": "npm install && cd backend && npm install && cd ../frontend && npm install",
-    "build": "cd frontend && npm install && npm run build"
+    "build": "cd frontend && npm install && npm run build && cd ../backend && npm install"
   },
   "keywords": [
     "linkedin",
