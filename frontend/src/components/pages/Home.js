@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import PostForm from '../posts/PostForm';
 import PostItem from '../posts/PostItem';
-import axios from 'axios';
+import api from '../../api';
 import { FaSpinner } from 'react-icons/fa';
 
 const Home = () => {
@@ -18,7 +18,7 @@ const Home = () => {
   const fetchPosts = async () => {
     try {
       setLoading(true);
-      const res = await axios.get('/api/posts');
+      const res = await api.get('/posts');
       setPosts(res.data);
       setError('');
     } catch (error) {

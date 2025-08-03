@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import axios from 'axios';
+import api from '../../api';
 import { 
   FaUser, 
   FaHeart, 
@@ -49,7 +49,7 @@ const PostItem = ({ post, onPostDeleted, onPostUpdated }) => {
     
     try {
       setLoading(true);
-      const res = await axios.put(`/api/posts/${post._id}/like`);
+      const res = await api.put(`/posts/${post._id}/like`);
       onPostUpdated(res.data);
     } catch (error) {
       console.error('Like error:', error);
@@ -64,7 +64,7 @@ const PostItem = ({ post, onPostDeleted, onPostUpdated }) => {
 
     try {
       setCommentLoading(true);
-      const res = await axios.post(`/api/posts/${post._id}/comments`, {
+      const res = await api.post(`/posts/${post._id}/comments`, {
         text: commentText
       });
       onPostUpdated(res.data);
@@ -86,7 +86,7 @@ const PostItem = ({ post, onPostDeleted, onPostUpdated }) => {
     if (confirmed) {
       try {
         setDeleteLoading(true);
-        await axios.delete(`/api/posts/${post._id}`);
+        await api.delete(`/posts/${post._id}`);
         onPostDeleted(post._id);
       } catch (error) {
         console.error('Delete error:', error);

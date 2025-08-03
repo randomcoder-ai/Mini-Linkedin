@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import axios from 'axios';
+import api from '../../api';
 import { FaPaperPlane, FaUser } from 'react-icons/fa';
 
 const PostForm = ({ onPostCreated }) => {
@@ -26,7 +26,7 @@ const PostForm = ({ onPostCreated }) => {
       setLoading(true);
       setError('');
 
-      const res = await axios.post('/api/posts', { content });
+      const res = await api.post('/posts', { content });
       onPostCreated(res.data);
       setContent('');
     } catch (error) {

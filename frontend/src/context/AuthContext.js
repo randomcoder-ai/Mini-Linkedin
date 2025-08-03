@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 
 const AuthContext = createContext();
 
@@ -63,9 +63,9 @@ export const AuthProvider = ({ children }) => {
   // Set auth token header
   useEffect(() => {
     if (state.token) {
-      axios.defaults.headers.common['Authorization'] = `Bearer ${state.token}`;
+      api.defaults.headers.common['Authorization'] = `Bearer ${state.token}`;
     } else {
-      delete axios.defaults.headers.common['Authorization'];
+      delete api.defaults.headers.common['Authorization'];
     }
   }, [state.token]);
 
@@ -74,7 +74,7 @@ export const AuthProvider = ({ children }) => {
     const loadUser = async () => {
       if (state.token) {
         try {
-          const res = await axios.get('/api/auth/me');
+          const res = await api.get('/auth/me');
           dispatch({ type: 'USER_LOADED', payload: res.data });
         } catch (error) {
           dispatch({ type: 'AUTH_ERROR' });
@@ -90,7 +90,7 @@ export const AuthProvider = ({ children }) => {
   // Register user
   const register = async (formData) => {
     try {
-      const res = await axios.post('/api/auth/register', formData);
+      const res = await api.post('/auth/register', formData);
       dispatch({ type: 'REGISTER_SUCCESS', payload: res.data });
       return { success: true };
     } catch (error) {
@@ -102,7 +102,7 @@ export const AuthProvider = ({ children }) => {
   // Login user
   const login = async (formData) => {
     try {
-      const res = await axios.post('/api/auth/login', formData);
+      const res = await api.post('/auth/login', formData);
       dispatch({ type: 'LOGIN_SUCCESS', payload: res.data });
       return { success: true };
     } catch (error) {
@@ -119,7 +119,7 @@ export const AuthProvider = ({ children }) => {
   // Update user profile
   const updateProfile = async (formData) => {
     try {
-      const res = await axios.put('/api/users/profile', formData);
+      const res = await api.put('/users/profile', formData);
       dispatch({ type: 'UPDATE_USER', payload: res.data });
       return { success: true };
     } catch (error) {

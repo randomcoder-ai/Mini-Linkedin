@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import PostItem from '../posts/PostItem';
-import axios from 'axios';
+import api from '../../api';
 import { FaUser, FaEdit, FaSave, FaTimes, FaSpinner } from 'react-icons/fa';
 
 const Profile = () => {
@@ -31,7 +31,7 @@ const Profile = () => {
         return;
       }
       
-      const res = await axios.get(`/api/users/${userId}/posts`);
+      const res = await api.get(`/users/${userId}/posts`);
       setPosts(res.data);
     } catch (error) {
       console.error('Fetch user posts error:', error);

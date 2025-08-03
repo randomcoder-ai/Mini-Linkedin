@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import PostItem from '../posts/PostItem';
 import Notification from '../layout/Notification';
-import axios from 'axios';
+import api from '../../api';
 import { FaUser, FaSpinner, FaUserPlus, FaUserCheck, FaUsers } from 'react-icons/fa';
 
 const UserProfile = () => {
@@ -36,8 +36,8 @@ const UserProfile = () => {
     try {
       setLoading(true);
       const [userRes, postsRes] = await Promise.all([
-        axios.get(`/api/users/${id}`),
-        axios.get(`/api/users/${id}/posts`)
+        api.get(`/users/${id}`),
+        api.get(`/users/${id}/posts`)
       ]);
       
       setUser(userRes.data);
@@ -53,7 +53,7 @@ const UserProfile = () => {
 
   const checkConnectionStatus = async () => {
     try {
-      const res = await axios.get(`/api/users/${id}/connection-status`);
+      const res = await api.get(`/users/${id}/connection-status`);
       setIsConnected(res.data.isConnected);
     } catch (error) {
       console.error('Connection status error:', error);
@@ -65,7 +65,7 @@ const UserProfile = () => {
 
     try {
       setConnectionLoading(true);
-      const res = await axios.put(`/api/users/${id}/connect`);
+      const res = await api.put(`/users/${id}/connect`);
       setIsConnected(res.data.isConnected);
       
       // Show success notification
